@@ -1,24 +1,28 @@
 #!/bin/bash
 
-#Bingo Number Generator
+# Program to tell a persons fortune
 
-echo -e "\n~~ Bingo Number Generator ~~\n"
-NUMBER=$(( RANDOM%75+1 ))
-TEXT="The next number is, "
+echo -e "\n~~ Fortune Teller ~~\n"
 
-if (( $NUMBER <= 15 ))
-then 
-  echo $TEXT B:$NUMBER
-elif [[ $NUMBER -le 30 ]]
-then 
-  echo $TEXT I:$NUMBER
-elif (( $NUMBER < 46 ))
-then 
-  echo $TEXT N:$NUMBER
-elif [[ $NUMBER -lt 61 ]]
-then 
-  echo $TEXT G:$NUMBER
-else 
-  echo $TEXT O:$NUMBER
-fi
+RESPONSES=("Yes" "No" "Maybe" "Outlook good" "Don't count on it" "Ask again later")
+N=$(( RANDOM % 6 ))
 
+function GET_FORTUNE() {
+  if [[ ! $1 ]]
+  then
+    echo Ask a yes or no question:
+  else
+    echo Try again. Make sure it ends with a question mark:
+  fi
+
+  read QUESTION
+}
+
+GET_FORTUNE
+
+until [[ $QUESTION =~ \?$ ]]
+do
+  GET_FORTUNE again
+done
+
+echo -e "\n$RESPONSES[$N]"
